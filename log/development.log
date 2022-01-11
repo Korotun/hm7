@@ -1,0 +1,225 @@
+  [1m[35m (3.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (24.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (17.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreatePosts (20220111014412)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (6.4ms)[0m  [1m[35mCREATE TABLE "posts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "content" text, "image" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20220111014412"]]
+  [1m[36mTRANSACTION (36.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (4.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2022-01-11 01:44:38.962182"], ["updated_at", "2022-01-11 01:44:38.962182"]]
+  [1m[36mTRANSACTION (19.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-01-11 03:46:10 +0200
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 63.1ms | Allocations: 1900)
+  Rendered layout layouts/application.html.erb (Duration: 547.3ms | Allocations: 17281)
+Completed 200 OK in 602ms (Views: 572.3ms | ActiveRecord: 0.4ms | Allocations: 22229)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-11 03:46:16 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  Rendered posts/_form.html.erb (Duration: 417.5ms | Allocations: 5438)
+  Rendered posts/new.html.erb within layouts/application (Duration: 421.1ms | Allocations: 5851)
+  Rendered layout layouts/application.html.erb (Duration: 452.1ms | Allocations: 7344)
+Completed 200 OK in 616ms (Views: 467.0ms | ActiveRecord: 1.1ms | Allocations: 11532)
+
+
+Started POST "/posts" for 127.0.0.1 at 2022-01-11 03:46:25 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"MyPost", "content"=>"", "image"=>""}, "commit"=>"Create Post"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/posts_controller.rb:27:in `block in create'
+  [1m[36mPost Create (7.8ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "image", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "MyPost"], ["content", ""], ["image", ""], ["created_at", "2022-01-11 01:46:25.845927"], ["updated_at", "2022-01-11 01:46:25.845927"]]
+  ↳ app/controllers/posts_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (14.9ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/posts_controller.rb:27:in `block in create'
+Redirected to http://localhost:3000/posts/1
+Completed 302 Found in 66ms (ActiveRecord: 22.8ms | Allocations: 5936)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-11 03:46:25 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:63:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  Rendered posts/show.html.erb within layouts/application (Duration: 1.6ms | Allocations: 540)
+  Rendered layout layouts/application.html.erb (Duration: 7.1ms | Allocations: 2047)
+Completed 200 OK in 64ms (Views: 16.4ms | ActiveRecord: 0.3ms | Allocations: 5948)
+
+
+Started GET "/posts/1/edit" for 127.0.0.1 at 2022-01-11 03:46:30 +0200
+Processing by PostsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:63:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/edit.html.erb within layouts/application
+  Rendered posts/_form.html.erb (Duration: 9.9ms | Allocations: 1114)
+  Rendered posts/edit.html.erb within layouts/application (Duration: 14.3ms | Allocations: 1396)
+  Rendered layout layouts/application.html.erb (Duration: 23.2ms | Allocations: 2777)
+Completed 200 OK in 45ms (Views: 32.4ms | ActiveRecord: 0.2ms | Allocations: 3840)
+
+
+Started PATCH "/posts/1" for 127.0.0.1 at 2022-01-11 03:47:12 +0200
+Processing by PostsController#update as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"My First Post", "content"=>"Today I wake up at 7 o'clock", "image"=>""}, "commit"=>"Update Post", "id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:63:in `set_post'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/posts_controller.rb:40:in `block in update'
+  [1m[36mPost Update (21.3ms)[0m  [1m[33mUPDATE "posts" SET "title" = ?, "content" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["title", "My First Post"], ["content", "Today I wake up at 7 o'clock"], ["updated_at", "2022-01-11 01:47:12.977633"], ["id", 1]]
+  ↳ app/controllers/posts_controller.rb:40:in `block in update'
+  [1m[36mTRANSACTION (12.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/posts_controller.rb:40:in `block in update'
+Redirected to http://localhost:3000/posts/1
+Completed 302 Found in 133ms (ActiveRecord: 34.1ms | Allocations: 5798)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-11 03:47:13 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:63:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  Rendered posts/show.html.erb within layouts/application (Duration: 0.9ms | Allocations: 235)
+  Rendered layout layouts/application.html.erb (Duration: 17.4ms | Allocations: 1628)
+Completed 200 OK in 47ms (Views: 37.2ms | ActiveRecord: 0.2ms | Allocations: 2533)
+
+
+Started GET "/posts/1/edit" for 127.0.0.1 at 2022-01-11 03:47:16 +0200
+Processing by PostsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (2.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:63:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/edit.html.erb within layouts/application
+  Rendered posts/_form.html.erb (Duration: 15.6ms | Allocations: 1012)
+  Rendered posts/edit.html.erb within layouts/application (Duration: 23.1ms | Allocations: 1154)
+  Rendered layout layouts/application.html.erb (Duration: 30.6ms | Allocations: 2532)
+Completed 200 OK in 51ms (Views: 44.0ms | ActiveRecord: 2.4ms | Allocations: 3437)
+
+
+Started PATCH "/posts/1" for 127.0.0.1 at 2022-01-11 03:47:36 +0200
+Processing by PostsController#update as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"My First Post", "content"=>"Today I wake up at 7 o'clock", "image"=>"https://avatars.githubusercontent.com/u/94640715?v=4"}, "commit"=>"Update Post", "id"=>"1"}
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:63:in `set_post'
+  [1m[36mTRANSACTION (6.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/posts_controller.rb:40:in `block in update'
+  [1m[36mPost Update (4.5ms)[0m  [1m[33mUPDATE "posts" SET "image" = ?, "updated_at" = ? WHERE "posts"."id" = ?[0m  [["image", "https://avatars.githubusercontent.com/u/94640715?v=4"], ["updated_at", "2022-01-11 01:47:36.151727"], ["id", 1]]
+  ↳ app/controllers/posts_controller.rb:40:in `block in update'
+  [1m[36mTRANSACTION (11.0ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/posts_controller.rb:40:in `block in update'
+Redirected to http://localhost:3000/posts/1
+Completed 302 Found in 67ms (ActiveRecord: 21.8ms | Allocations: 5520)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-11 03:47:36 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:63:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  Rendered posts/show.html.erb within layouts/application (Duration: 1.1ms | Allocations: 236)
+  Rendered layout layouts/application.html.erb (Duration: 13.8ms | Allocations: 1629)
+Completed 200 OK in 25ms (Views: 16.3ms | ActiveRecord: 0.2ms | Allocations: 2536)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-11 03:50:25 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:63:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  Rendered posts/show.html.erb within layouts/application (Duration: 2.0ms | Allocations: 567)
+  Rendered layout layouts/application.html.erb (Duration: 20.8ms | Allocations: 2271)
+Completed 200 OK in 59ms (Views: 46.9ms | ActiveRecord: 0.3ms | Allocations: 4087)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-11 03:51:13 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:63:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  Rendered posts/show.html.erb within layouts/application (Duration: 6.6ms | Allocations: 570)
+  Rendered layout layouts/application.html.erb (Duration: 18.0ms | Allocations: 2274)
+Completed 200 OK in 48ms (Views: 35.3ms | ActiveRecord: 0.2ms | Allocations: 4162)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-11 03:51:21 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:63:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  Rendered posts/show.html.erb within layouts/application (Duration: 1.1ms | Allocations: 240)
+  Rendered layout layouts/application.html.erb (Duration: 6.6ms | Allocations: 1631)
+Completed 200 OK in 34ms (Views: 22.6ms | ActiveRecord: 0.2ms | Allocations: 2631)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-11 03:52:01 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:63:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  Rendered posts/show.html.erb within layouts/application (Duration: 3.8ms | Allocations: 570)
+  Rendered layout layouts/application.html.erb (Duration: 16.8ms | Allocations: 2273)
+Completed 200 OK in 40ms (Views: 28.5ms | ActiveRecord: 0.2ms | Allocations: 4064)
+
+
+Started GET "/" for 127.0.0.1 at 2022-01-11 03:52:55 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 17.2ms | Allocations: 1319)
+  Rendered layout layouts/application.html.erb (Duration: 51.2ms | Allocations: 2710)
+Completed 200 OK in 57ms (Views: 55.4ms | ActiveRecord: 0.5ms | Allocations: 3204)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-11 03:57:11 +0200
+Processing by PostsController#new as HTML
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  ↳ app/controllers/posts_controller.rb:15:in `new'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  Rendered posts/_form.html.erb (Duration: 36.1ms | Allocations: 1622)
+  Rendered posts/new.html.erb within layouts/application (Duration: 38.6ms | Allocations: 2047)
+  Rendered layout layouts/application.html.erb (Duration: 48.6ms | Allocations: 3591)
+Completed 200 OK in 130ms (Views: 66.8ms | ActiveRecord: 11.3ms | Allocations: 8966)
+
+
+Started POST "/posts" for 127.0.0.1 at 2022-01-11 03:57:14 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"", "content"=>"", "image"=>""}, "commit"=>"Create Post"}
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  Rendered posts/_form.html.erb (Duration: 25.8ms | Allocations: 3720)
+  Rendered posts/new.html.erb within layouts/application (Duration: 34.1ms | Allocations: 3835)
+  Rendered layout layouts/application.html.erb (Duration: 47.6ms | Allocations: 5220)
+Completed 422 Unprocessable Entity in 55ms (Views: 52.1ms | ActiveRecord: 0.0ms | Allocations: 6566)
+
+
