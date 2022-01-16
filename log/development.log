@@ -240,3 +240,1168 @@ Migrating to CreatePosts (20220111014412)
   [1m[36mTRANSACTION (3.9ms)[0m  [1m[35mCOMMIT[0m
   [1m[35m (4.0ms)[0m  [1m[34mSELECT pg_advisory_unlock(5168794849566389475)[0m
   [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5168794849566389475)[0m
+  [1m[35m (2.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateAuthors (20220115234342)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (60.1ms)[0m  [1m[35mCREATE TABLE "authors" ("id" bigserial primary key, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220115234342"]]
+  [1m[36mTRANSACTION (1.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddAuthorToPosts (20220115234726)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.8ms)[0m  [1m[35mALTER TABLE "posts" ADD "author" reference[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (4.0ms)[0m  [1m[34mSELECT pg_advisory_unlock(5168794849566389475)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5168794849566389475)[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to AddAuthorToPosts (20220115234726)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[35mALTER TABLE "posts" ADD "author" references[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(5168794849566389475)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5168794849566389475)[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to AddAuthorToPosts (20220115234726)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "posts" ADD "author_id" bigint[0m
+  [1m[35m (5.5ms)[0m  [1m[35mCREATE INDEX "index_posts_on_author_id" ON "posts" ("author_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220115234726"]]
+  [1m[36mTRANSACTION (1.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.9ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(5168794849566389475)[0m
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5168794849566389475)[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateComments (20220115235604)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (38.7ms)[0m  [1m[35mCREATE TABLE "comments" ("id" bigserial primary key, "body" text, "status" integer, "author_id" bigint NOT NULL, "post_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_f44b1e3c8a"
+FOREIGN KEY ("author_id")
+  REFERENCES "authors" ("id")
+, CONSTRAINT "fk_rails_2fd19c0db7"
+FOREIGN KEY ("post_id")
+  REFERENCES "posts" ("id")
+)[0m
+  [1m[35m (8.1ms)[0m  [1m[35mCREATE INDEX "index_comments_on_author_id" ON "comments" ("author_id")[0m
+  [1m[35m (5.1ms)[0m  [1m[35mCREATE INDEX "index_comments_on_post_id" ON "comments" ("post_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220115235604"]]
+  [1m[36mTRANSACTION (14.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (6.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(5168794849566389475)[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5168794849566389475)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateComments (20220115235604)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (11.0ms)[0m  [1m[35mDROP TABLE "comments"[0m
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.6ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = $1[0m  [["version", "20220115235604"]]
+  [1m[36mTRANSACTION (3.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT pg_advisory_unlock(5168794849566389475)[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5168794849566389475)[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateComments (20220115235604)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (18.1ms)[0m  [1m[35mCREATE TABLE "comments" ("id" bigserial primary key, "body" text NOT NULL, "status" integer DEFAULT 0 NOT NULL, "author_id" bigint NOT NULL, "post_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_f44b1e3c8a"
+FOREIGN KEY ("author_id")
+  REFERENCES "authors" ("id")
+, CONSTRAINT "fk_rails_2fd19c0db7"
+FOREIGN KEY ("post_id")
+  REFERENCES "posts" ("id")
+)[0m
+  [1m[35m (4.3ms)[0m  [1m[35mCREATE INDEX "index_comments_on_author_id" ON "comments" ("author_id")[0m
+  [1m[35m (4.9ms)[0m  [1m[35mCREATE INDEX "index_comments_on_post_id" ON "comments" ("post_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20220115235604"]]
+  [1m[36mTRANSACTION (2.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(5168794849566389475)[0m
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-01-16 02:18:28 +0200
+  [1m[35m (2.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (7.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 49.1ms | Allocations: 1907)
+  Rendered layout layouts/application.html.erb (Duration: 98.4ms | Allocations: 6221)
+Completed 200 OK in 198ms (Views: 128.3ms | ActiveRecord: 7.1ms | Allocations: 11628)
+
+
+  [1m[36mAuthor Load (0.7ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mAuthor Create (0.7ms)[0m  [1m[32mINSERT INTO "authors" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Serg"], ["created_at", "2022-01-16 00:19:14.551236"], ["updated_at", "2022-01-16 00:19:14.551236"]]
+  [1m[36mTRANSACTION (2.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mAuthor Create (0.3ms)[0m  [1m[32mINSERT INTO "authors" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Mike"], ["created_at", "2022-01-16 00:19:20.918349"], ["updated_at", "2022-01-16 00:19:20.918349"]]
+  [1m[36mTRANSACTION (3.1ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:19:26 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  Rendered posts/_form.html.erb (Duration: 62.0ms | Allocations: 5636)
+  Rendered posts/new.html.erb within layouts/application (Duration: 65.6ms | Allocations: 6048)
+  Rendered layout layouts/application.html.erb (Duration: 73.7ms | Allocations: 7532)
+Completed 200 OK in 132ms (Views: 76.8ms | ActiveRecord: 11.2ms | Allocations: 12229)
+
+
+Started POST "/posts" for 127.0.0.1 at 2022-01-16 02:19:39 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"Post 1", "content"=>"Post conent", "image"=>""}, "commit"=>"Create Post"}
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  Rendered posts/_form.html.erb (Duration: 23.8ms | Allocations: 2427)
+  Rendered posts/new.html.erb within layouts/application (Duration: 24.7ms | Allocations: 2549)
+  Rendered layout layouts/application.html.erb (Duration: 29.7ms | Allocations: 4032)
+Completed 422 Unprocessable Entity in 79ms (Views: 40.7ms | ActiveRecord: 0.0ms | Allocations: 9132)
+
+
+Started POST "/posts" for 127.0.0.1 at 2022-01-16 02:20:10 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"Post 1", "content"=>"Post conent", "image"=>"https://avatars.githubusercontent.com/u/94640715?v=4"}, "commit"=>"Create Post"}
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  Rendered posts/_form.html.erb (Duration: 5.9ms | Allocations: 1256)
+  Rendered posts/new.html.erb within layouts/application (Duration: 11.4ms | Allocations: 1370)
+  Rendered layout layouts/application.html.erb (Duration: 14.8ms | Allocations: 2749)
+Completed 422 Unprocessable Entity in 36ms (Views: 20.2ms | ActiveRecord: 0.0ms | Allocations: 4097)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:21:07 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (5.8ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31
+  Rendered posts/_form.html.erb (Duration: 124.2ms | Allocations: 7612)
+  Rendered posts/new.html.erb within layouts/application (Duration: 126.0ms | Allocations: 8005)
+  Rendered layout layouts/application.html.erb (Duration: 131.6ms | Allocations: 9706)
+Completed 200 OK in 148ms (Views: 121.4ms | ActiveRecord: 25.0ms | Allocations: 10975)
+
+
+Started GET "/" for 127.0.0.1 at 2022-01-16 02:21:09 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (2.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 28.2ms | Allocations: 1311)
+  Rendered layout layouts/application.html.erb (Duration: 33.5ms | Allocations: 2703)
+Completed 200 OK in 40ms (Views: 36.0ms | ActiveRecord: 2.5ms | Allocations: 3236)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:21:12 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (6.2ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31
+  Rendered posts/_form.html.erb (Duration: 28.3ms | Allocations: 2233)
+  Rendered posts/new.html.erb within layouts/application (Duration: 30.4ms | Allocations: 2351)
+  Rendered layout layouts/application.html.erb (Duration: 38.3ms | Allocations: 3729)
+Completed 200 OK in 42ms (Views: 34.5ms | ActiveRecord: 6.2ms | Allocations: 4078)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:24:12 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (2.6ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31
+  Rendered posts/_form.html.erb (Duration: 36.7ms | Allocations: 2168)
+  Rendered posts/new.html.erb within layouts/application (Duration: 43.1ms | Allocations: 2282)
+  Rendered layout layouts/application.html.erb (Duration: 49.1ms | Allocations: 3660)
+Completed 200 OK in 52ms (Views: 48.9ms | ActiveRecord: 2.6ms | Allocations: 4005)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:24:40 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  Rendered posts/_form.html.erb (Duration: 56.0ms | Allocations: 3855)
+  Rendered posts/new.html.erb within layouts/application (Duration: 59.3ms | Allocations: 4225)
+  Rendered layout layouts/application.html.erb (Duration: 60.4ms | Allocations: 4304)
+Completed 500 Internal Server Error in 75ms (ActiveRecord: 0.0ms | Allocations: 5507)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <%= form_with(model: post) do |form| %>
+  <% if post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div class="field">
+    <%= form.label :image %>
+    <%= form.text_field :image %>
+  </div>
+
+  <div class="field">
+    <%= form.label :author %>
+    <%= form.select :author, Author.all %>
+    <%= form.options_from_collection_for_select(Author.all, :id, :name)
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+):
+1:    <%= form_with(model: post) do |form| %>
+2:      <% if post.errors.any? %>
+3:        <div id="error_explanation">
+4:          <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+5:    
+6:          <ul>
+7:            <% post.errors.each do |error| %>
+8:              <li><%= error.full_message %></li>
+9:            <% end %>
+10:          </ul>
+11:        </div>
+12:      <% end %>
+13:    
+14:      <div class="field">
+15:        <%= form.label :title %>
+16:        <%= form.text_field :title %>
+17:      </div>
+18:    
+19:      <div class="field">
+20:        <%= form.label :content %>
+21:        <%= form.text_area :content %>
+22:      </div>
+23:    
+24:      <div class="field">
+25:        <%= form.label :image %>
+26:        <%= form.text_field :image %>
+27:      </div>
+28:    
+29:      <div class="field">
+30:        <%= form.label :author %>
+31:        <%= form.select :author, Author.all %>
+32:        <%= form.options_from_collection_for_select(Author.all, :id, :name)
+33:      </div>
+34:    
+35:      <div class="actions">
+36:        <%= form.submit %>
+37:      </div>
+38:    <% end %>
+  
+app/views/posts/_form.html.erb:33: syntax error, unexpected '<', expecting ')'
+app/views/posts/_form.html.erb:37: unknown regexp options - dv
+app/views/posts/_form.html.erb:37: unmatched close parenthesis: /div>
+app/views/posts/_form.html.erb:40: unterminated string meets end of file
+app/views/posts/_form.html.erb:40: syntax error, unexpected end-of-input, expecting ')'
+app/views/posts/_form.html.erb:33: syntax error, unexpected '<', expecting ')'
+app/views/posts/_form.html.erb:37: unknown regexp options - dv
+app/views/posts/_form.html.erb:37: unmatched close parenthesis: /div>
+app/views/posts/_form.html.erb:40: unterminated string meets end of file
+app/views/posts/_form.html.erb:40: syntax error, unexpected end-of-input, expecting ')'
+app/views/posts/_form.html.erb:33: syntax error, unexpected '<', expecting ')'
+app/views/posts/_form.html.erb:37: unknown regexp options - dv
+app/views/posts/_form.html.erb:37: unmatched close parenthesis: /div>
+app/views/posts/_form.html.erb:40: unterminated string meets end of file
+app/views/posts/_form.html.erb:40: syntax error, unexpected end-of-input, expecting ')'
+app/views/posts/_form.html.erb:33: syntax error, unexpected '<', expecting ')'
+app/views/posts/_form.html.erb:37: unknown regexp options - dv
+app/views/posts/_form.html.erb:37: unmatched close parenthesis: /div>
+app/views/posts/_form.html.erb:40: unterminated string meets end of file
+app/views/posts/_form.html.erb:40: syntax error, unexpected end-of-input, expecting ')'
+app/views/posts/_form.html.erb:33: syntax error, unexpected '<', expecting ')'
+app/views/posts/_form.html.erb:37: unknown regexp options - dv
+app/views/posts/_form.html.erb:37: unmatched close parenthesis: /div>
+app/views/posts/_form.html.erb:40: unterminated string meets end of file
+app/views/posts/_form.html.erb:40: syntax error, unexpected end-of-input, expecting ')'
+app/views/posts/_form.html.erb:33: syntax error, unexpected '<', expecting ')'
+app/views/posts/_form.html.erb:37: unknown regexp options - dv
+app/views/posts/_form.html.erb:37: unmatched close parenthesis: /div>
+app/views/posts/_form.html.erb:40: unterminated string meets end of file
+app/views/posts/_form.html.erb:40: syntax error, unexpected end-of-input, expecting ')'
+app/views/posts/new.html.erb:3
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:25:11 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (3.9ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31
+  Rendered posts/_form.html.erb (Duration: 74.4ms | Allocations: 4334)
+  Rendered posts/new.html.erb within layouts/application (Duration: 93.1ms | Allocations: 4702)
+  Rendered layout layouts/application.html.erb (Duration: 96.6ms | Allocations: 4780)
+Completed 500 Internal Server Error in 110ms (ActiveRecord: 3.9ms | Allocations: 6033)
+
+
+  
+ActionView::Template::Error (undefined method `options_from_collection_for_select' for #<ActionView::Helpers::FormBuilder:0x00007fb914ce6010 @nested_child_index={}, @options={:allow_method_names_outside_object=>true, :skip_default_ids=>false}, @template=#<ActionView::Base:0x00000000007a80>, @object=#<Post id: nil, title: nil, content: nil, image: nil, created_at: nil, updated_at: nil, author_id: nil>, @object_name="post", @default_options={:skip_default_ids=>false, :allow_method_names_outside_object=>true}, @default_html_options={}, @multipart=nil, @index=nil>):
+    29:   <div class="field">
+    30:     <%= form.label :author %>
+    31:     <%= form.select :author, Author.all %>
+    32:     <%= form.options_from_collection_for_select(Author.all, :id, :name) %>
+    33:   </div>
+    34: 
+    35:   <div class="actions">
+  
+app/views/posts/_form.html.erb:32
+app/views/posts/_form.html.erb:1
+app/views/posts/new.html.erb:3
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:26:25 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  Rendered posts/_form.html.erb (Duration: 19.0ms | Allocations: 2362)
+  Rendered posts/new.html.erb within layouts/application (Duration: 36.8ms | Allocations: 2724)
+  Rendered layout layouts/application.html.erb (Duration: 38.0ms | Allocations: 2802)
+Completed 500 Internal Server Error in 57ms (ActiveRecord: 0.0ms | Allocations: 4015)
+
+
+  
+ActionView::Template::Error (no implicit conversion of Symbol into Hash):
+    28: 
+    29:   <div class="field">
+    30:     <%= form.label :author %>
+    31:     <%= form.select :author, Author.all, :id, :name %>
+    32:   </div>
+    33: 
+    34:   <div class="actions">
+  
+app/views/posts/_form.html.erb:31
+app/views/posts/_form.html.erb:1
+app/views/posts/new.html.erb:3
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:29:48 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  Rendered posts/_form.html.erb (Duration: 2.7ms | Allocations: 1490)
+  Rendered posts/new.html.erb within layouts/application (Duration: 7.1ms | Allocations: 1851)
+  Rendered layout layouts/application.html.erb (Duration: 11.4ms | Allocations: 1930)
+Completed 500 Internal Server Error in 24ms (ActiveRecord: 0.0ms | Allocations: 3137)
+
+
+  
+ActionView::SyntaxErrorInTemplate (Encountered a syntax error while rendering template: check <%= form_with(model: post) do |form| %>
+  <% if post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div class="field">
+    <%= form.label :image %>
+    <%= form.text_field :image %>
+  </div>
+
+  <div class="field">
+    <%= form.label :author %>
+    <%= form.select :author, Author.all.collect { |a| [a.id, a.name] %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+):
+1:    <%= form_with(model: post) do |form| %>
+2:      <% if post.errors.any? %>
+3:        <div id="error_explanation">
+4:          <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+5:    
+6:          <ul>
+7:            <% post.errors.each do |error| %>
+8:              <li><%= error.full_message %></li>
+9:            <% end %>
+10:          </ul>
+11:        </div>
+12:      <% end %>
+13:    
+14:      <div class="field">
+15:        <%= form.label :title %>
+16:        <%= form.text_field :title %>
+17:      </div>
+18:    
+19:      <div class="field">
+20:        <%= form.label :content %>
+21:        <%= form.text_area :content %>
+22:      </div>
+23:    
+24:      <div class="field">
+25:        <%= form.label :image %>
+26:        <%= form.text_field :image %>
+27:      </div>
+28:    
+29:      <div class="field">
+30:        <%= form.label :author %>
+31:        <%= form.select :author, Author.all.collect { |a| [a.id, a.name] %>
+32:      </div>
+33:    
+34:      <div class="actions">
+35:        <%= form.submit %>
+36:      </div>
+37:    <% end %>
+  
+app/views/posts/_form.html.erb:31: syntax error, unexpected ')', expecting '}'
+app/views/posts/_form.html.erb:37: syntax error, unexpected `end', expecting ')'
+app/views/posts/_form.html.erb:39: syntax error, unexpected `end', expecting ')'
+app/views/posts/_form.html.erb:31: syntax error, unexpected ')', expecting '}'
+app/views/posts/_form.html.erb:37: syntax error, unexpected `end', expecting ')'
+app/views/posts/_form.html.erb:39: syntax error, unexpected `end', expecting ')'
+app/views/posts/_form.html.erb:31: syntax error, unexpected ')', expecting '}'
+app/views/posts/_form.html.erb:37: syntax error, unexpected `end', expecting ')'
+app/views/posts/_form.html.erb:39: syntax error, unexpected `end', expecting ')'
+app/views/posts/_form.html.erb:31: syntax error, unexpected ')', expecting '}'
+app/views/posts/_form.html.erb:37: syntax error, unexpected `end', expecting ')'
+app/views/posts/_form.html.erb:39: syntax error, unexpected `end', expecting ')'
+app/views/posts/_form.html.erb:31: syntax error, unexpected ')', expecting '}'
+app/views/posts/_form.html.erb:37: syntax error, unexpected `end', expecting ')'
+app/views/posts/_form.html.erb:39: syntax error, unexpected `end', expecting ')'
+app/views/posts/_form.html.erb:31: syntax error, unexpected ')', expecting '}'
+app/views/posts/_form.html.erb:37: syntax error, unexpected `end', expecting ')'
+app/views/posts/_form.html.erb:39: syntax error, unexpected `end', expecting ')'
+app/views/posts/new.html.erb:3
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:30:22 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (8.7ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 41.2ms | Allocations: 2901)
+  Rendered posts/new.html.erb within layouts/application (Duration: 48.7ms | Allocations: 3289)
+  Rendered layout layouts/application.html.erb (Duration: 59.9ms | Allocations: 4979)
+Completed 200 OK in 87ms (Views: 70.2ms | ActiveRecord: 8.7ms | Allocations: 6226)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:31:00 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (8.1ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 58.7ms | Allocations: 2889)
+  Rendered posts/new.html.erb within layouts/application (Duration: 60.9ms | Allocations: 3276)
+  Rendered layout layouts/application.html.erb (Duration: 91.6ms | Allocations: 4969)
+Completed 200 OK in 110ms (Views: 94.1ms | ActiveRecord: 8.1ms | Allocations: 6217)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:31:19 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (3.3ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 32.5ms | Allocations: 2891)
+  Rendered posts/new.html.erb within layouts/application (Duration: 39.3ms | Allocations: 3279)
+  Rendered layout layouts/application.html.erb (Duration: 53.4ms | Allocations: 4957)
+Completed 200 OK in 68ms (Views: 61.5ms | ActiveRecord: 3.3ms | Allocations: 6206)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:31:27 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (4.6ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 34.2ms | Allocations: 2176)
+  Rendered posts/new.html.erb within layouts/application (Duration: 35.4ms | Allocations: 2290)
+  Rendered layout layouts/application.html.erb (Duration: 47.0ms | Allocations: 3668)
+Completed 200 OK in 57ms (Views: 51.2ms | ActiveRecord: 4.6ms | Allocations: 4036)
+
+
+Started POST "/posts" for 127.0.0.1 at 2022-01-16 02:32:00 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"My Post", "content"=>"This is my Post", "image"=>"https://github.com/account", "author"=>"1"}, "commit"=>"Create Post"}
+[31mUnpermitted parameter: :author[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (9.5ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 31.5ms | Allocations: 2772)
+  Rendered posts/new.html.erb within layouts/application (Duration: 38.3ms | Allocations: 2886)
+  Rendered layout layouts/application.html.erb (Duration: 44.2ms | Allocations: 4264)
+Completed 422 Unprocessable Entity in 62ms (Views: 40.4ms | ActiveRecord: 9.5ms | Allocations: 5591)
+
+
+Started POST "/posts" for 127.0.0.1 at 2022-01-16 02:32:27 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"My Post", "content"=>"This is my Post", "image"=>"https://github.com/account", "author"=>"2"}, "commit"=>"Create Post"}
+[31mUnpermitted parameter: :author[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (8.5ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 27.5ms | Allocations: 2761)
+  Rendered posts/new.html.erb within layouts/application (Duration: 28.4ms | Allocations: 2875)
+  Rendered layout layouts/application.html.erb (Duration: 37.0ms | Allocations: 4253)
+Completed 422 Unprocessable Entity in 55ms (Views: 33.4ms | ActiveRecord: 8.5ms | Allocations: 5520)
+
+
+Started POST "/posts" for 127.0.0.1 at 2022-01-16 02:32:33 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"My Post", "content"=>"This is my Post", "image"=>"https://github.com/account", "author"=>"2"}, "commit"=>"Create Post"}
+[31mUnpermitted parameter: :author[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (5.1ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 45.5ms | Allocations: 2767)
+  Rendered posts/new.html.erb within layouts/application (Duration: 49.9ms | Allocations: 2881)
+  Rendered layout layouts/application.html.erb (Duration: 62.0ms | Allocations: 4259)
+Completed 422 Unprocessable Entity in 81ms (Views: 64.2ms | ActiveRecord: 5.1ms | Allocations: 5521)
+
+
+Started POST "/posts" for 127.0.0.1 at 2022-01-16 02:33:17 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"My Post", "content"=>"This is my Post", "image"=>"https://github.com/account", "author"=>"1"}, "commit"=>"Create Post"}
+Completed 500 Internal Server Error in 70ms (ActiveRecord: 22.1ms | Allocations: 6818)
+
+
+  
+ActiveRecord::AssociationTypeMismatch (Author(#20460) expected, got "1" which is an instance of String(#2760)):
+  
+app/controllers/posts_controller.rb:24:in `create'
+Started POST "/posts" for 127.0.0.1 at 2022-01-16 02:35:56 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"My Post", "content"=>"This is my Post", "image"=>"https://github.com/account", "author"=>"1"}, "commit"=>"Create Post"}
+  [1m[36mAuthor Load (13.6ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:25:in `create'
+  [1m[36mTRANSACTION (4.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+  [1m[36mPost Create (3.6ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "image", "created_at", "updated_at", "author_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "My Post"], ["content", "This is my Post"], ["image", "https://github.com/account"], ["created_at", "2022-01-16 00:35:56.789699"], ["updated_at", "2022-01-16 00:35:56.789699"], ["author_id", 1]]
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+  [1m[36mTRANSACTION (37.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+Redirected to http://127.0.0.1:3000/posts/1
+Completed 302 Found in 223ms (ActiveRecord: 100.0ms | Allocations: 13545)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-16 02:35:56 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (2.0ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  Rendered posts/show.html.erb within layouts/application (Duration: 55.6ms | Allocations: 3793)
+  Rendered layout layouts/application.html.erb (Duration: 63.2ms | Allocations: 3871)
+Completed 500 Internal Server Error in 88ms (ActiveRecord: 2.0ms | Allocations: 5499)
+
+
+  
+ActionView::Template::Error (undefined method `comments' for #<Post id: 1, title: "My Post", content: "This is my Post", image: "https://github.com/account", created_at: "2022-01-16 00:35:56.789699000 +0000", updated_at: "2022-01-16 00:35:56.789699000 +0000", author_id: 1>
+Did you mean?  committed!):
+    21: <hr/>
+    22: 
+    23: Comments:
+    24: <% @post.comments.published.each do |comment| %>
+    25:   <%= comment.body %>
+    26: <% end %>
+    27: 
+  
+app/views/posts/show.html.erb:24
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-16 02:36:43 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (7.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  Rendered posts/show.html.erb within layouts/application (Duration: 232.1ms | Allocations: 8552)
+  Rendered layout layouts/application.html.erb (Duration: 233.2ms | Allocations: 8639)
+Completed 500 Internal Server Error in 334ms (ActiveRecord: 30.2ms | Allocations: 15472)
+
+
+  
+ActionView::Template::Error (undefined method `belong_to' for Comment:Class
+Did you mean?  belongs_to):
+    21: <hr/>
+    22: 
+    23: Comments:
+    24: <% @post.comments.published.each do |comment| %>
+    25:   <%= comment.body %>
+    26: <% end %>
+    27: 
+  
+app/models/comment.rb:3:in `<class:Comment>'
+app/models/comment.rb:1:in `<main>'
+app/views/posts/show.html.erb:24
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-16 02:37:05 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (4.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+Creating scope :unpublished. Overwriting existing method Comment.unpublished.
+Creating scope :published. Overwriting existing method Comment.published.
+  [1m[36mComment Load (2.9ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1 AND "comments"."status" = $2[0m  [["post_id", 1], ["status", 1]]
+  ↳ app/views/posts/show.html.erb:24
+  Rendered posts/show.html.erb within layouts/application (Duration: 73.3ms | Allocations: 5275)
+  Rendered layout layouts/application.html.erb (Duration: 87.2ms | Allocations: 6852)
+Completed 200 OK in 191ms (Views: 87.2ms | ActiveRecord: 33.6ms | Allocations: 13663)
+
+
+Started GET "/posts/1/edit" for 127.0.0.1 at 2022-01-16 02:37:34 +0200
+Processing by PostsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (13.8ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/edit.html.erb within layouts/application
+  [1m[36mAuthor Load (11.9ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  [1m[36mAuthor Load (9.2ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/views/posts/_form.html.erb:31
+  Rendered posts/_form.html.erb (Duration: 201.8ms | Allocations: 9332)
+  Rendered posts/edit.html.erb within layouts/application (Duration: 209.7ms | Allocations: 9644)
+  Rendered layout layouts/application.html.erb (Duration: 220.4ms | Allocations: 11124)
+Completed 200 OK in 255ms (Views: 186.1ms | ActiveRecord: 58.0ms | Allocations: 12428)
+
+
+Started PATCH "/posts/1" for 127.0.0.1 at 2022-01-16 02:37:55 +0200
+Processing by PostsController#update as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"My Post", "content"=>"This is my Post", "image"=>"https://avatars.githubusercontent.com/u/94640715?v=4", "author"=>"1"}, "commit"=>"Update Post", "id"=>"1"}
+  [1m[36mPost Load (4.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+Completed 500 Internal Server Error in 26ms (ActiveRecord: 4.2ms | Allocations: 1714)
+
+
+  
+ActiveRecord::AssociationTypeMismatch (Author(#29820) expected, got "1" which is an instance of String(#2760)):
+  
+app/controllers/posts_controller.rb:41:in `block in update'
+app/controllers/posts_controller.rb:40:in `update'
+Started GET "/" for 127.0.0.1 at 2022-01-16 02:41:59 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (4.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 82.5ms | Allocations: 5581)
+  Rendered layout layouts/application.html.erb (Duration: 110.0ms | Allocations: 7300)
+Completed 200 OK in 132ms (Views: 101.3ms | ActiveRecord: 18.7ms | Allocations: 10102)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:42:03 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (8.6ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 84.1ms | Allocations: 6070)
+  Rendered posts/new.html.erb within layouts/application (Duration: 98.9ms | Allocations: 6434)
+  Rendered layout layouts/application.html.erb (Duration: 105.1ms | Allocations: 7913)
+Completed 200 OK in 115ms (Views: 84.0ms | ActiveRecord: 28.4ms | Allocations: 8444)
+
+
+Started POST "/posts" for 127.0.0.1 at 2022-01-16 02:42:16 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"test", "content"=>"test", "image"=>"teest", "author_id"=>"1"}, "commit"=>"Create Post"}
+  [1m[36mTRANSACTION (8.0ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+  [1m[36mAuthor Load (2.3ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+  [1m[36mTRANSACTION (6.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (5.1ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 68.0ms | Allocations: 2905)
+  Rendered posts/new.html.erb within layouts/application (Duration: 68.9ms | Allocations: 3023)
+  Rendered layout layouts/application.html.erb (Duration: 73.9ms | Allocations: 4414)
+Completed 422 Unprocessable Entity in 132ms (Views: 74.3ms | ActiveRecord: 21.5ms | Allocations: 9268)
+
+
+Started POST "/posts" for 127.0.0.1 at 2022-01-16 02:42:21 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"test", "content"=>"testtest", "image"=>"teest", "author_id"=>"1"}, "commit"=>"Create Post"}
+  [1m[36mTRANSACTION (6.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+  [1m[36mAuthor Load (5.2ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+  [1m[36mTRANSACTION (4.5ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (3.9ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 40.2ms | Allocations: 2803)
+  Rendered posts/new.html.erb within layouts/application (Duration: 46.0ms | Allocations: 2917)
+  Rendered layout layouts/application.html.erb (Duration: 58.7ms | Allocations: 4295)
+Completed 422 Unprocessable Entity in 117ms (Views: 58.3ms | ActiveRecord: 19.7ms | Allocations: 8045)
+
+
+Started POST "/posts" for 127.0.0.1 at 2022-01-16 02:42:27 +0200
+Processing by PostsController#create as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"test", "content"=>"tetetetettesttest", "image"=>"teest", "author_id"=>"1"}, "commit"=>"Create Post"}
+  [1m[36mTRANSACTION (8.9ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+  [1m[36mAuthor Load (2.6ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+  [1m[36mPost Create (21.2ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "image", "created_at", "updated_at", "author_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "test"], ["content", "tetetetettesttest"], ["image", "teest"], ["created_at", "2022-01-16 00:42:27.188137"], ["updated_at", "2022-01-16 00:42:27.188137"], ["author_id", 1]]
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+  [1m[36mTRANSACTION (5.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/posts_controller.rb:28:in `block in create'
+Redirected to http://127.0.0.1:3000/posts/2
+Completed 302 Found in 84ms (ActiveRecord: 38.4ms | Allocations: 4267)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2022-01-16 02:42:27 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (4.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  Rendered posts/show.html.erb within layouts/application (Duration: 6.5ms | Allocations: 1826)
+  Rendered layout layouts/application.html.erb (Duration: 7.7ms | Allocations: 1898)
+Completed 500 Internal Server Error in 29ms (ActiveRecord: 4.3ms | Allocations: 3223)
+
+
+  
+ActionView::Template::Error (The asset "teest" is not present in the asset pipeline.
+):
+     7: 
+     8: <p>
+     9:   <strong>Image:</strong>
+    10:   <%= image_tag @post.image, style: 'height: 100px; width: 100px' %>
+    11: </p>
+    12: 
+    13: <p>
+  
+app/views/posts/show.html.erb:10
+Started GET "/posts" for 127.0.0.1 at 2022-01-16 02:42:40 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (7.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 24.3ms | Allocations: 1286)
+  Rendered layout layouts/application.html.erb (Duration: 40.9ms | Allocations: 2689)
+Completed 200 OK in 54ms (Views: 45.4ms | ActiveRecord: 7.2ms | Allocations: 3031)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2022-01-16 02:42:45 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (3.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  Rendered posts/show.html.erb within layouts/application (Duration: 13.9ms | Allocations: 1518)
+  Rendered layout layouts/application.html.erb (Duration: 15.4ms | Allocations: 1590)
+Completed 500 Internal Server Error in 37ms (ActiveRecord: 3.5ms | Allocations: 2614)
+
+
+  
+ActionView::Template::Error (The asset "teest" is not present in the asset pipeline.
+):
+     7: 
+     8: <p>
+     9:   <strong>Image:</strong>
+    10:   <%= image_tag @post.image, style: 'height: 100px; width: 100px' %>
+    11: </p>
+    12: 
+    13: <p>
+  
+app/views/posts/show.html.erb:10
+Started GET "/" for 127.0.0.1 at 2022-01-16 02:42:57 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (7.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 18.5ms | Allocations: 1268)
+  Rendered layout layouts/application.html.erb (Duration: 40.6ms | Allocations: 2671)
+Completed 200 OK in 43ms (Views: 34.5ms | ActiveRecord: 7.5ms | Allocations: 3012)
+
+
+Started GET "/posts/2/edit" for 127.0.0.1 at 2022-01-16 02:43:01 +0200
+Processing by PostsController#edit as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (7.7ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/edit.html.erb within layouts/application
+  [1m[36mAuthor Load (6.9ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 21.3ms | Allocations: 2011)
+  Rendered posts/edit.html.erb within layouts/application (Duration: 28.3ms | Allocations: 2275)
+  Rendered layout layouts/application.html.erb (Duration: 32.4ms | Allocations: 3653)
+Completed 200 OK in 53ms (Views: 30.5ms | ActiveRecord: 14.6ms | Allocations: 4840)
+
+
+Started PATCH "/posts/2" for 127.0.0.1 at 2022-01-16 02:43:20 +0200
+Processing by PostsController#update as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "post"=>{"title"=>"test", "content"=>"tetetetettesttest", "image"=>"https://avatars.githubusercontent.com/u/94640715?v=4", "author_id"=>"1"}, "commit"=>"Update Post", "id"=>"2"}
+  [1m[36mPost Load (3.7ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  [1m[36mTRANSACTION (7.0ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/posts_controller.rb:41:in `block in update'
+  [1m[36mAuthor Load (8.1ms)[0m  [1m[34mSELECT "authors".* FROM "authors" WHERE "authors"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:41:in `block in update'
+  [1m[36mPost Update (6.5ms)[0m  [1m[33mUPDATE "posts" SET "image" = $1, "updated_at" = $2 WHERE "posts"."id" = $3[0m  [["image", "https://avatars.githubusercontent.com/u/94640715?v=4"], ["updated_at", "2022-01-16 00:43:20.061688"], ["id", 2]]
+  ↳ app/controllers/posts_controller.rb:41:in `block in update'
+  [1m[36mTRANSACTION (7.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/posts_controller.rb:41:in `block in update'
+Redirected to http://127.0.0.1:3000/posts/2
+Completed 302 Found in 99ms (ActiveRecord: 33.1ms | Allocations: 4916)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2022-01-16 02:43:20 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (5.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+Creating scope :unpublished. Overwriting existing method Comment.unpublished.
+Creating scope :published. Overwriting existing method Comment.published.
+  [1m[36mComment Load (8.9ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1 AND "comments"."status" = $2[0m  [["post_id", 2], ["status", 1]]
+  ↳ app/views/posts/show.html.erb:24
+  Rendered posts/show.html.erb within layouts/application (Duration: 104.9ms | Allocations: 5559)
+  Rendered layout layouts/application.html.erb (Duration: 110.2ms | Allocations: 7064)
+Completed 200 OK in 134ms (Views: 100.2ms | ActiveRecord: 20.2ms | Allocations: 8150)
+
+
+Started GET "/" for 127.0.0.1 at 2022-01-16 02:43:26 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (3.7ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 43.8ms | Allocations: 1335)
+  Rendered layout layouts/application.html.erb (Duration: 52.9ms | Allocations: 2727)
+Completed 200 OK in 58ms (Views: 53.5ms | ActiveRecord: 3.7ms | Allocations: 3102)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2022-01-16 02:43:33 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (6.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (10.7ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1 AND "comments"."status" = $2[0m  [["post_id", 2], ["status", 1]]
+  ↳ app/views/posts/show.html.erb:24
+  Rendered posts/show.html.erb within layouts/application (Duration: 16.1ms | Allocations: 1239)
+  Rendered layout layouts/application.html.erb (Duration: 27.8ms | Allocations: 2630)
+Completed 200 OK in 54ms (Views: 22.4ms | ActiveRecord: 17.2ms | Allocations: 3705)
+
+
+Started GET "/posts" for 127.0.0.1 at 2022-01-16 02:43:39 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (7.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 19.2ms | Allocations: 1269)
+  Rendered layout layouts/application.html.erb (Duration: 29.7ms | Allocations: 2660)
+Completed 200 OK in 43ms (Views: 30.3ms | ActiveRecord: 7.6ms | Allocations: 3002)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-16 02:43:45 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (7.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (11.1ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1 AND "comments"."status" = $2[0m  [["post_id", 1], ["status", 1]]
+  ↳ app/views/posts/show.html.erb:24
+  Rendered posts/show.html.erb within layouts/application (Duration: 23.0ms | Allocations: 1237)
+  Rendered layout layouts/application.html.erb (Duration: 39.0ms | Allocations: 2628)
+Completed 200 OK in 54ms (Views: 29.0ms | ActiveRecord: 18.3ms | Allocations: 3688)
+
+
+Started GET "/posts" for 127.0.0.1 at 2022-01-16 02:43:52 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (9.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 28.8ms | Allocations: 1267)
+  Rendered layout layouts/application.html.erb (Duration: 34.7ms | Allocations: 2658)
+Completed 200 OK in 42ms (Views: 32.5ms | ActiveRecord: 9.1ms | Allocations: 2999)
+
+
+Started GET "/posts" for 127.0.0.1 at 2022-01-16 02:43:56 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (6.7ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 18.3ms | Allocations: 1267)
+  Rendered layout layouts/application.html.erb (Duration: 32.4ms | Allocations: 2658)
+Completed 200 OK in 39ms (Views: 30.9ms | ActiveRecord: 6.7ms | Allocations: 2999)
+
+
+Started GET "/posts" for 127.0.0.1 at 2022-01-16 02:44:00 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (6.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 17.9ms | Allocations: 1267)
+  Rendered layout layouts/application.html.erb (Duration: 28.1ms | Allocations: 2658)
+Completed 200 OK in 40ms (Views: 30.1ms | ActiveRecord: 6.1ms | Allocations: 3000)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2022-01-16 02:44:07 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (7.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (4.9ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1 AND "comments"."status" = $2[0m  [["post_id", 2], ["status", 1]]
+  ↳ app/views/posts/show.html.erb:24
+  Rendered posts/show.html.erb within layouts/application (Duration: 16.5ms | Allocations: 1236)
+  Rendered layout layouts/application.html.erb (Duration: 24.0ms | Allocations: 2632)
+Completed 200 OK in 46ms (Views: 25.0ms | ActiveRecord: 12.0ms | Allocations: 3692)
+
+
+Started GET "/" for 127.0.0.1 at 2022-01-16 02:44:12 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (2.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 17.9ms | Allocations: 1214)
+  Rendered layout layouts/application.html.erb (Duration: 39.3ms | Allocations: 2623)
+Completed 200 OK in 43ms (Views: 39.7ms | ActiveRecord: 2.6ms | Allocations: 2964)
+
+
+Started GET "/" for 127.0.0.1 at 2022-01-16 02:45:18 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (5.0ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 25.2ms | Allocations: 1804)
+  Rendered layout layouts/application.html.erb (Duration: 38.1ms | Allocations: 3510)
+Completed 200 OK in 60ms (Views: 46.8ms | ActiveRecord: 5.0ms | Allocations: 4768)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2022-01-16 02:45:22 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (5.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (11.1ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1 AND "comments"."status" = $2[0m  [["post_id", 2], ["status", 1]]
+  ↳ app/views/posts/show.html.erb:24
+  Rendered posts/show.html.erb within layouts/application (Duration: 24.1ms | Allocations: 1545)
+  Rendered layout layouts/application.html.erb (Duration: 34.5ms | Allocations: 2936)
+Completed 200 OK in 50ms (Views: 26.1ms | ActiveRecord: 16.4ms | Allocations: 4183)
+
+
+Started GET "/" for 127.0.0.1 at 2022-01-16 02:45:24 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (3.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 16.5ms | Allocations: 1267)
+  Rendered layout layouts/application.html.erb (Duration: 32.3ms | Allocations: 2658)
+Completed 200 OK in 41ms (Views: 33.1ms | ActiveRecord: 3.6ms | Allocations: 3000)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2022-01-16 02:45:34 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (7.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (2.5ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1 AND "comments"."status" = $2[0m  [["post_id", 2], ["status", 1]]
+  ↳ app/views/posts/show.html.erb:24
+  Rendered posts/show.html.erb within layouts/application (Duration: 20.6ms | Allocations: 1236)
+  Rendered layout layouts/application.html.erb (Duration: 33.5ms | Allocations: 2627)
+Completed 200 OK in 55ms (Views: 34.3ms | ActiveRecord: 10.0ms | Allocations: 3687)
+
+
+Started GET "/posts" for 127.0.0.1 at 2022-01-16 02:46:04 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (3.0ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 30.5ms | Allocations: 1269)
+  Rendered layout layouts/application.html.erb (Duration: 39.6ms | Allocations: 2672)
+Completed 200 OK in 50ms (Views: 44.7ms | ActiveRecord: 3.0ms | Allocations: 3014)
+
+
+Started GET "/posts/1" for 127.0.0.1 at 2022-01-16 02:46:14 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mPost Load (1.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (2.5ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1 AND "comments"."status" = $2[0m  [["post_id", 1], ["status", 1]]
+  ↳ app/views/posts/show.html.erb:24
+  Rendered posts/show.html.erb within layouts/application (Duration: 18.6ms | Allocations: 1237)
+  Rendered layout layouts/application.html.erb (Duration: 29.3ms | Allocations: 2628)
+Completed 200 OK in 49ms (Views: 33.8ms | ActiveRecord: 4.1ms | Allocations: 3689)
+
+
+Started GET "/posts" for 127.0.0.1 at 2022-01-16 02:46:28 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (6.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 24.0ms | Allocations: 1267)
+  Rendered layout layouts/application.html.erb (Duration: 33.9ms | Allocations: 2658)
+Completed 200 OK in 39ms (Views: 31.4ms | ActiveRecord: 6.5ms | Allocations: 2999)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2022-01-16 02:46:38 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (4.0ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (4.4ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1 AND "comments"."status" = $2[0m  [["post_id", 2], ["status", 1]]
+  ↳ app/views/posts/show.html.erb:24
+  Rendered posts/show.html.erb within layouts/application (Duration: 19.0ms | Allocations: 1236)
+  Rendered layout layouts/application.html.erb (Duration: 26.6ms | Allocations: 2627)
+Completed 200 OK in 57ms (Views: 27.8ms | ActiveRecord: 8.4ms | Allocations: 3687)
+
+
+Started GET "/posts/2" for 127.0.0.1 at 2022-01-16 02:49:39 +0200
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mPost Load (3.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mComment Load (3.9ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = $1 AND "comments"."status" = $2[0m  [["post_id", 2], ["status", 1]]
+  ↳ app/views/posts/show.html.erb:24
+  Rendered posts/show.html.erb within layouts/application (Duration: 12.9ms | Allocations: 1825)
+  Rendered layout layouts/application.html.erb (Duration: 28.2ms | Allocations: 3527)
+Completed 200 OK in 72ms (Views: 46.4ms | ActiveRecord: 7.3ms | Allocations: 5472)
+
+
+Started GET "/" for 127.0.0.1 at 2022-01-16 02:49:44 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (3.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 30.0ms | Allocations: 1742)
+  Rendered layout layouts/application.html.erb (Duration: 37.4ms | Allocations: 3121)
+Completed 200 OK in 56ms (Views: 49.6ms | ActiveRecord: 3.3ms | Allocations: 3610)
+
+
+Started DELETE "/posts/2" for 127.0.0.1 at 2022-01-16 02:49:47 +0200
+Processing by PostsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "id"=>"2"}
+  [1m[36mPost Load (9.0ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  [1m[36mTRANSACTION (5.8ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/posts_controller.rb:53:in `destroy'
+  [1m[36mPost Destroy (7.0ms)[0m  [1m[31mDELETE FROM "posts" WHERE "posts"."id" = $1[0m  [["id", 2]]
+  ↳ app/controllers/posts_controller.rb:53:in `destroy'
+  [1m[36mTRANSACTION (3.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/posts_controller.rb:53:in `destroy'
+Redirected to http://127.0.0.1:3000/posts
+Completed 302 Found in 68ms (ActiveRecord: 25.0ms | Allocations: 3088)
+
+
+Started GET "/posts" for 127.0.0.1 at 2022-01-16 02:49:48 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (11.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 30.9ms | Allocations: 1266)
+  Rendered layout layouts/application.html.erb (Duration: 40.5ms | Allocations: 2644)
+Completed 200 OK in 45ms (Views: 31.8ms | ActiveRecord: 11.1ms | Allocations: 2985)
+
+
+Started DELETE "/posts/1" for 127.0.0.1 at 2022-01-16 02:50:02 +0200
+Processing by PostsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "id"=>"1"}
+  [1m[36mPost Load (5.8ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/posts_controller.rb:64:in `set_post'
+  [1m[36mTRANSACTION (2.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/posts_controller.rb:53:in `destroy'
+  [1m[36mPost Destroy (4.7ms)[0m  [1m[31mDELETE FROM "posts" WHERE "posts"."id" = $1[0m  [["id", 1]]
+  ↳ app/controllers/posts_controller.rb:53:in `destroy'
+  [1m[36mTRANSACTION (3.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/posts_controller.rb:53:in `destroy'
+Redirected to http://127.0.0.1:3000/posts
+Completed 302 Found in 51ms (ActiveRecord: 15.8ms | Allocations: 2953)
+
+
+Started GET "/posts" for 127.0.0.1 at 2022-01-16 02:50:02 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (2.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 20.7ms | Allocations: 1059)
+  Rendered layout layouts/application.html.erb (Duration: 25.4ms | Allocations: 2450)
+Completed 200 OK in 28ms (Views: 25.1ms | ActiveRecord: 2.4ms | Allocations: 2791)
+
+
+Started GET "/posts/new" for 127.0.0.1 at 2022-01-16 02:50:12 +0200
+Processing by PostsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/new.html.erb within layouts/application
+  [1m[36mAuthor Load (3.5ms)[0m  [1m[34mSELECT "authors".* FROM "authors"[0m
+  ↳ app/views/posts/_form.html.erb:31:in `collect'
+  Rendered posts/_form.html.erb (Duration: 29.3ms | Allocations: 2634)
+  Rendered posts/new.html.erb within layouts/application (Duration: 37.1ms | Allocations: 2988)
+  Rendered layout layouts/application.html.erb (Duration: 43.8ms | Allocations: 4366)
+Completed 200 OK in 50ms (Views: 45.0ms | ActiveRecord: 3.5ms | Allocations: 4842)
+
+
+Started GET "/" for 127.0.0.1 at 2022-01-16 02:50:38 +0200
+Processing by PostsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (10.0ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  ↳ app/views/posts/index.html.erb:16
+  Rendered posts/index.html.erb within layouts/application (Duration: 34.6ms | Allocations: 1049)
+  Rendered layout layouts/application.html.erb (Duration: 48.5ms | Allocations: 2440)
+Completed 200 OK in 52ms (Views: 41.0ms | ActiveRecord: 10.0ms | Allocations: 2781)
+
+

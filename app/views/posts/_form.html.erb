@@ -26,6 +26,11 @@
     <%= form.text_field :image %>
   </div>
 
+  <div class="field">
+    <%= form.label :author %>
+    <%= form.select :author_id, Author.all.collect { |a| [a.name, a.id] } %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
